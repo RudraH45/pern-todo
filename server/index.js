@@ -1,0 +1,48 @@
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const pool = require('./db');
+
+
+app.use(cors());
+app.use(express.json());
+
+//insert a todo
+app.post('/todos', async (req, res) => {
+    try{
+        const { description } = req.body;
+        const newTodo = await pool.query("INSERT INTO todo (description) VALUES ($1) RETURNING *", [description]);
+         res.status(201).json(newTodo.rows[0]);
+    } catch (err){
+        res.status(500).json({error: err.message});
+    }
+})
+
+//get all todos
+app.get('/todos', async(req,res) => {
+    try{
+        const newTodo = await pool.query("SELECT * FROM todo");
+        res.json(newTodo.rows);
+    } catch (err){
+        console.error(err.message);
+    }
+})
+
+//get a todo
+app.get('/todos/:id',  async(req,res) => {
+    try{
+        const {id} = req.params;
+        const todo = await pool.query("SELECT * FROM todo Where todo_id = $1", [id]);
+        res.json(todo.rows[0]);
+    } catch (err){
+        console.error(err.message);  
+    }   
+})
+
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
+app.listen(5000, () =>{
+    console.log('Server is running on port 5000');  
+});
