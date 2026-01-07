@@ -14,7 +14,8 @@ app.post('/todos', async (req, res) => {
         const newTodo = await pool.query("INSERT INTO todo (description) VALUES ($1) RETURNING *", [description]);
          res.status(201).json(newTodo.rows[0]);
     } catch (err){
-        res.status(500).json({error: err.message});
+        res.status(500).send("server error")
+        console.error(err.message);
     }
 })
 
