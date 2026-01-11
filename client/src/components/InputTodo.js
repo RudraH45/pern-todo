@@ -15,7 +15,7 @@ const InputTodo =  () => {
     })
     console.log(response);
 
-    // window.location = "/";  // this line refreshes the page after adding a new todo to show the updated list
+    window.location = "/";  // this line refreshes the page after adding a new todo to show the updated list
     } catch (err) {
         console.error(err.message);
     }
