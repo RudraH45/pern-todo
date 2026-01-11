@@ -1,4 +1,5 @@
 import React from "react";
+import EditTodo from "./EditTodo";
 
 const ListTodo = () => {
     const [todos, setTodos] = React.useState([]);
@@ -30,6 +31,8 @@ const ListTodo = () => {
     React.useEffect(() => {
         getTodos();
     }, []);
+
+
     return (
         <main>
             <table class="table mt-5 text-center">
@@ -44,7 +47,7 @@ const ListTodo = () => {
             {todos.map(todo => (
                 <tr key={todo.todo_id}>
                     <td>{todo.description}</td>
-                    <td><button>Edit</button></td>
+                    <td><EditTodo todo = {todo}/></td>
                     <td><button className="btn btn-danger" onClick = {() => deleteTodos(todo.todo_id)}>Delete</button></td>  {/* / calling deleteTodos func with the id(as parameter) of the todo to be deleted */}
                 </tr>
             ))}
